@@ -3,6 +3,8 @@ import random as r
 import os
 from dotenv import load_dotenv
 import resources.text_to_string as tts
+import haiku_finder as h
+
 
 
 # initializing
@@ -13,6 +15,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 client = discord.Client(intents=intents)
+
 
 
 # space for future variables & stuff
@@ -26,10 +29,17 @@ HELLOS = [
 COINS = ['1','0']
 
 
+
+# defining embeds
+info = discord.Embed(color=0xaab2b9, description=tts.stringify(tts.path), title="Commands")
+
+
+
 # start/login stuff
 @client.event
 async def on_ready():
     print(f"\033[93mWe have logged in as {client.user}")
+
 
 
 # on message
@@ -59,11 +69,13 @@ async def on_message(message):
         await message.channel.send(r.choice(COINS))
 
     if '!help' in message.content:
-        info = tts.stringify(tts.path)
-        await message.channel.send(info)
+        #brb
+        await message.channel.send('', embed=info)
 
     print(repr(message.author.id))
     last_sender = message.author
+
+
 
 # running the bot
 client.run(TOKEN)
