@@ -1,0 +1,27 @@
+name: Execute Python Script
+
+on:
+  push:
+    branches: [ main ]          # Runs every time you push code to the main branch
+  schedule:
+    - cron: '0 0 * * *'        # Optional: Runs automatically every day at midnight UTC
+  workflow_dispatch:           # Allows you to click a button to run it manually
+
+jobs:
+  run-python:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run Script
+        run: python your_script_name.py

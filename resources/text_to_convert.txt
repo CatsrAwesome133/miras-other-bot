@@ -1,0 +1,3 @@
+## Commands:
+`!help`: this command! lists out all currently available commands.
+`!flip` or `!coinflip`: flips a coin
