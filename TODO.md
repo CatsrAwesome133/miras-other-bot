@@ -9,3 +9,6 @@
 - detect total syllables
 - count first five, then seven, pass if all whole words
 - reformat into haiku
+
+## Others
+- draw pfp and banner

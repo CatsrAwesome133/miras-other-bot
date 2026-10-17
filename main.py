@@ -22,9 +22,16 @@ client = discord.Client(intents=intents)
 ANGLER = 1504819900957589555
 FRIEDFISH = '<:friedfish:1561070704844341410>'
 HELLOS = [
-    'hihi',
+    'welcome',
     'hello!',
-    'greetings'
+    'greetings',
+    '...and how may I help you this fine new loop?'
+]
+HELLO_WEIGHTS = [
+     3,
+     2,
+     2,
+     0.1
 ]
 COINS = ['1','0']
 
@@ -58,7 +65,7 @@ async def on_message(message):
 
     # a greeting
     if 'hello' in message.content:
-        await message.channel.send(r.choice(HELLOS))
+        await message.channel.send(r.choices(HELLOS, weights=HELLO_WEIGHTS, k=1)[0])
 
     # specifically because my friends have beef with a fish
     if '1530253570996305940' in message.content:
@@ -72,7 +79,6 @@ async def on_message(message):
         #brb
         await message.channel.send('', embed=info)
 
-    print(repr(message.author.id))
     last_sender = message.author
 
 
