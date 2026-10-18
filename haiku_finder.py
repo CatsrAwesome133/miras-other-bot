@@ -34,7 +34,7 @@ def haiku_phrase(phrase):
             if syllables in [5, 12, 17]:
                 bar.append(counter)
 
-    if syllables == 17:
+    if len(bar) == 3:
         print("Yep")
         return True
     else: 
@@ -46,4 +46,5 @@ if __name__ == '__main__':
 
     haiku_phrase("and today i had a cake")
     haiku_phrase("An old silent pond, A frog jumps into the pond, Splash! Silence again.")
+    haiku_phrase("An old silent, ponder frog jumps into the pond, Splash! Silence again.")
     #print(get_syllables("".join([char for char in text if char.isalpha()])))
