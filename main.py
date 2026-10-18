@@ -3,6 +3,7 @@ import random as r
 import os
 from dotenv import load_dotenv
 import resources.text_to_string as tts
+from resources.similar_string import *
 import haiku_finder as h
 
 
@@ -53,11 +54,19 @@ async def on_ready():
 @client.event
 async def on_message(message):
     global last_sender
+    global last_message
 
     # specifically for my one single tupperbox
     if message.author.id == ANGLER:
-            await message.channel.send('shut up')
-            await message.channel.send(f'give {last_sender.display_name} their message back smh')
+            if 'a:' in last_message.content.lower():
+                # little condition since Angler has a prefix notation too
+                await message.channel.send(f'give {last_sender.display_name} their message back smh')
+
+            elif similar(last_message.content, message.content):
+                await message.channel.send(f'give {last_sender.display_name} their message back smh')
+            else:
+                await message.channel.send('shut up')
+                 
 
     # ignores bot messages
     if message.author is client.user or message.author.bot:
@@ -75,11 +84,15 @@ async def on_message(message):
     if '!flip' in message.content or '!coinflip' in message.content:
         await message.channel.send(r.choice(COINS))
 
+    if '!setup' in message.content:
+            await message.channel.send('OK! this is still WIP though.')
+
     if '!help' in message.content:
         #brb
         await message.channel.send('', embed=info)
 
     last_sender = message.author
+    last_message = message
 
 
 

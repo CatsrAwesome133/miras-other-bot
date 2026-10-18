@@ -41,9 +41,9 @@ def haiku_phrase(phrase):
         print("Nop")
         return False
 
+if __name__ == '__main__':
+    text = "HEllo!"
 
-text = "HEllo!"
-
-haiku_phrase("and today i had a cake")
-haiku_phrase("An old silent pond, A frog jumps into the pond, Splash! Silence again.")
-#print(get_syllables("".join([char for char in text if char.isalpha()])))
+    haiku_phrase("and today i had a cake")
+    haiku_phrase("An old silent pond, A frog jumps into the pond, Splash! Silence again.")
+    #print(get_syllables("".join([char for char in text if char.isalpha()])))
