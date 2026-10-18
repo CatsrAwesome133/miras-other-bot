@@ -21,5 +21,29 @@ def get_syllables(word):
 def haiku_phrase(phrase):
     words = phrase.split(' ')
     print(words)
+    counter = 0
+    syllables = 0
+    temp = ""
+    bar = []
+
+    for word in words:
+        counter += 1
+        if any(c.isalpha() for c in word):
+            temp = "".join([char for char in word if char.isalpha()])
+            syllables += get_syllables(temp)
+            if syllables in [5, 12, 17]:
+                bar.append(counter)
+
+    if syllables == 17:
+        print("Yep")
+        return True
+    else: 
+        print("Nop")
+        return False
+
+
+text = "HEllo!"
 
 haiku_phrase("and today i had a cake")
+haiku_phrase("An old silent pond, A frog jumps into the pond, Splash! Silence again.")
+#print(get_syllables("".join([char for char in text if char.isalpha()])))
