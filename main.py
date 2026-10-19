@@ -22,6 +22,7 @@ client = discord.Client(intents=intents)
 # space for future variables & stuff
 ANGLER = 1504819900957589555
 FRIEDFISH = '<:friedfish:1561070704844341410>'
+HAIKU = '📃'
 HELLOS = [
     'welcome',
     'hello!',
@@ -46,7 +47,7 @@ info = discord.Embed(color=0xaab2b9, description=tts.stringify(tts.path), title=
 # start/login stuff
 @client.event
 async def on_ready():
-    print(f"\033[93mWe have logged in as {client.user}")
+    print(f"\033[93mWe have logged in as {client.user}\033[0m")
 
 
 
@@ -71,6 +72,11 @@ async def on_message(message):
     # ignores bot messages
     if message.author is client.user or message.author.bot:
         return
+
+    if_haiku = h.haiku_phrase(message.content)
+    if if_haiku[0]:
+         await message.add_reaction(HAIKU)
+         await message.reply(if_haiku[1] + f'*- A haiku by {message.author.name}*')
 
     # a greeting
     if 'hello' in message.content:
