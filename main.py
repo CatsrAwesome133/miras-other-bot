@@ -1,12 +1,24 @@
 import discord
+from discord import app_commands
+from typing import Literal, Optional
 import random as r
 import os
 from dotenv import load_dotenv
 import resources.text_to_string as tts
 from resources.similar_string import *
+from constants import *
 import haiku_finder as h
 
 
+
+# command setup
+class MyClient(discord.Client):
+    # Suppress error on the User attribute being None since it fills up later
+    user: discord.ClientUser
+
+    def __init__(self, *, intents: discord.Intents):
+        super().__init__(intents=intents)
+        self.tree = app_commands.CommandTree(self)
 
 # initializing
 load_dotenv()
@@ -15,27 +27,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 intents = discord.Intents.default()
 intents.message_content = True
 
-client = discord.Client(intents=intents)
-
-
-
-# space for future variables & stuff
-ANGLER = 1504819900957589555
-FRIEDFISH = '<:friedfish:1561070704844341410>'
-HAIKU = '📃'
-HELLOS = [
-    'welcome',
-    'hello!',
-    'greetings',
-    '...and how may I help you this fine new loop?'
-]
-HELLO_WEIGHTS = [
-     3,
-     2,
-     2,
-     0.1
-]
-COINS = ['1','0']
+client = MyClient(intents=intents)
 
 
 
@@ -47,7 +39,18 @@ info = discord.Embed(color=0xaab2b9, description=tts.stringify(tts.path), title=
 # start/login stuff
 @client.event
 async def on_ready():
+    guild = discord.Object(id=GUILD)
+    client.tree.copy_global_to(guild=guild)
+
     print(f"\033[93mWe have logged in as {client.user}\033[0m")
+
+    guild_sync = await client.tree.sync(guild=guild)
+    print(f"Synced {len(guild_sync)} commands:")
+    for cmd in guild_sync:
+        print(f" - {cmd.name}")
+    
+    synced = await client.tree.sync()
+    print(f"Synced {len(synced)} commands globally")
 
 
 
@@ -97,8 +100,33 @@ async def on_message(message):
         #brb
         await message.channel.send('', embed=info)
 
+    if '!metricthis' in message.content or 'imnotamerican' in "".join([c for c in message.content.lower() if c.isalpha()]):
+         pass
+
     last_sender = message.author
     last_message = message
+
+
+
+# commands
+@client.tree.command()
+@app_commands.describe(
+    beef_at='By default this bot hates the Angler. Change this here.',
+)
+async def setup(
+    interaction: discord.Interaction,
+    beef_at: Optional[str],
+):
+    """Some configuration options for the bot"""
+    await interaction.response.send_message("Sorry it's still wip", ephemeral=False)
+
+
+@client.tree.command()
+async def help(
+    interaction: discord.Interaction,
+):
+    """Shows a list of commands and other helpful stuff"""
+    await interaction.response.send_message('', embed=info, ephemeral=False)
 
 
 

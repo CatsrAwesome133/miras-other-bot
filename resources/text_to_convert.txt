@@ -1,2 +1,4 @@
-`!help`: this command! lists out all currently available commands.
+`!help` or `/help`: this command! lists out all currently available commands 
+`/setup`: lets you configure some bot settings
 `!flip` or `!coinflip`: flips a coin
+`!metricthis`: converts the subject of the reply to metric
