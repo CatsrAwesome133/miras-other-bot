@@ -1,5 +1,6 @@
 import nltk
 from nltk.corpus import cmudict
+import syllables as s
 
 
 nltk.download('cmudict')
@@ -33,13 +34,14 @@ def haiku_phrase(phrase):
         counter += 1
 
         if any(c.isalpha() for c in word):
+            temp = "".join([c for c in word if c.isalpha()])
             try:
-                temp = "".join([c for c in word if c.isalpha()])
                 syllables += get_syllables(temp)
-                if syllables in [5, 12, 17]:
-                    bar.append(counter)
             except TypeError:
-                pass
+                # fallback with syllables
+                syllables += s.estimate(temp)
+            if syllables in [5, 12, 17]:
+                bar.append(counter)
 
     if len(bar) == 3:
         print("Yep")
@@ -58,4 +60,5 @@ if __name__ == '__main__':
     print(haiku_phrase("and today i had a cake"))
     print(haiku_phrase("An old silent pond, \nA frog jumps into the pond, \nSplash! Silence again."))
     print(haiku_phrase("An old silent, ponder frog jumps into the pond, Splash! Silence again."))
+    print(haiku_phrase("also can't believe the placeholder name is now like official"))
     #print(get_syllables("".join([char for char in text if char.isalpha()])))
