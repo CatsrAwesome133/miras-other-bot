@@ -3,7 +3,8 @@
 - code in fish beef
     - beef with random person every day
 - code in some basic random conversations (ie. skybot)
-- unit conversion (trigger weirdly ie. "IM NOT AMERICAN")
+- ~~unit conversion ~~ $\color{green}{\text{DONE}}$
+    - (trigger weirdly ie. "IM NOT AMERICAN") $\color{blue}{\text{IN PROGRESS}}$
 - remindme
 - setup function
     - random message frequency
@@ -16,5 +17,6 @@
 
 ## Others
 - ~~draw pfp and banner~~ $\color{green}{\text{DONE}}$
+- use stack for metric conversion
 
 $\color{blue}{\text{IN PROGRESS}}$

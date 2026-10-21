@@ -6,6 +6,7 @@ import os
 from dotenv import load_dotenv
 import resources.text_to_string as tts
 from resources.similar_string import *
+from resources.metric import metric
 from constants import *
 import haiku_finder as h
 
@@ -23,6 +24,7 @@ class MyClient(discord.Client):
 # initializing
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
+target = ANGLER
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -32,7 +34,9 @@ client = MyClient(intents=intents)
 
 
 # defining embeds
+setup_text = ""
 info = discord.Embed(color=0xaab2b9, description=tts.stringify(tts.path), title="Commands")
+setup_info = discord.Embed(color=0xaab2b9, description=setup_text, title="You've changed these settings:")
 
 
 
@@ -61,7 +65,7 @@ async def on_message(message):
     global last_message
 
     # specifically for my one single tupperbox
-    if message.author.id == ANGLER:
+    if message.author.id == target:
             if 'a:' in last_message.content.lower():
                 # little condition since Angler has a prefix notation too
                 await message.channel.send(f'give {last_sender.display_name} their message back smh')
@@ -94,14 +98,20 @@ async def on_message(message):
         await message.channel.send(r.choice(COINS))
 
     if '!setup' in message.content:
-            await message.channel.send('OK! this is still WIP though.')
+        await message.channel.send('Sorry, this is not the correct command. Please use `/setup` instead!')
 
     if '!help' in message.content:
         #brb
         await message.channel.send('', embed=info)
 
     if '!metricthis' in message.content or 'imnotamerican' in "".join([c for c in message.content.lower() if c.isalpha()]):
-         pass
+        pass
+
+    if any(key in message.content for key in c):
+        converted = metric(message.content, "you")
+        await message.channel.send(converted[0])
+        if converted[1]:
+            await message.channel.send("I am confused too.")
 
     last_sender = message.author
     last_message = message
@@ -112,13 +122,23 @@ async def on_message(message):
 @client.tree.command()
 @app_commands.describe(
     beef_at='By default this bot hates the Angler. Change this here.',
+    beef_at_id= "You can also use the target's user ID",
 )
 async def setup(
     interaction: discord.Interaction,
-    beef_at: Optional[str],
+    beef_at: Optional[discord.User],
+    beef_at_id: Optional[int],
 ):
     """Some configuration options for the bot"""
-    await interaction.response.send_message("Sorry it's still wip", ephemeral=False)
+    global target
+
+    if beef_at:
+        target = beef_at.id
+
+    if beef_at_id:
+        target = beef_at_id
+    
+    await interaction.response.send_message('', embed=setup_info, ephemeral=False)
 
 
 @client.tree.command()
@@ -126,6 +146,7 @@ async def help(
     interaction: discord.Interaction,
 ):
     """Shows a list of commands and other helpful stuff"""
+    global setup_text
     await interaction.response.send_message('', embed=info, ephemeral=False)
 
 
