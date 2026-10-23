@@ -11,6 +11,7 @@ I may have used these external libraries:
 - python-dotenv
 - syllables
 - requests
+- discord.py
 
 However, the list below is probably more accurate.
 
@@ -20,6 +21,9 @@ However, the list below is probably more accurate.
 ## To **Host** This Bot
 You need to install some libraries.
 ```bash
+python3 -m pip install -U discord.py
+# on windows, use the following rather than the former:
+py -3 -m pip install -U discord.py
 pip install nltk
 pip install python-dotenv
 pip install syllables

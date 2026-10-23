@@ -57,6 +57,7 @@ def metric(text, pronoun="they"):
     if len(converted) >= 3:
          out += f"\nSiren would like to ask why {pronoun} used that many units."
          long = True
-    return out, long
+    return out, long, converted
 
-print(metric("It's like 2 in of rain outside, 80f outside, also 2 pounds because, and another 2 in of snow, oh and shes 5ft tall, and again its 80f outside bruh"))
+if __name__ == '__main__':
+    print(metric("It's like 2 in of rain outside, 80f outside, also 2 pounds because, and another 2 in of snow, oh and shes 5ft tall, and again its 80f outside bruh"))
