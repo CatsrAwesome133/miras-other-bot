@@ -119,12 +119,18 @@ async def on_message(message):
         await message.channel.send('', embed=info)
 
     if '!metricthis' in message.content or 'imnotamerican' in "".join([c for c in message.content.lower() if c.isalpha()]):
-        pass
+        converted = metric(last_message.content, "they")
+        if converted[2] != []:
+            await message.channel.send(converted[0])
+            if converted[1]:
+                await message.channel.send("I am confused too.")
+        else:
+            await message.channel.send("I do not see any units...")
 
     if r.random() < 0.001:
         await message.channel.send(r.choice(FUN))
 
-    if any(key in message.content for key in c):
+    if any(key in message.content for key in c) and r.randomm <= 0.85:
         converted = metric(message.content, "you")
         if converted[2] != []:
             await message.channel.send(converted[0])
@@ -181,9 +187,11 @@ async def story(
     siren = discord.Embed(color=0xaab2b9, description="A terror, a gale.\nA kind mother.\nBut many would dispute that.\n\n" \
                                                     "Once she found a pair of twins in the sky.\nThey ran, and I never found out why.\nI hear they live today, running about doing void knows what.", title="Siren of the Seas")
     storyteller = discord.Embed(color=0xaab2b9, description="Singer-Storyteller: Long-dead and long-forgotten, \nthough I recall \na little moth singing about me.\n\n" \
-                                                    "Fly in the skies and a visage may show.\nBut who you see you shall never know.", title="I'm irrelevant.")
+                                                    "Fly in the skies and a visage may show.\nBut who you may see you shall never know.", title="I'm irrelevant.")
     mira = discord.Embed(color=0xaab2b9, description="She's an interesting one.\nA bird who never flies,\nExcept in the mind's eye.\n\n" \
-                                                    "Speak your dreams, and\nWrite our tales.\nYou may find them here.", title="A Sparrow who draws")
+                                                    "Speak your dreams, and\nWrite our tales.\nYou may find them... here.", title="A Sparrow who draws")
+    apotheosis = discord.Embed(color=0xaab2b9, description="Someone wrote about this for homework.\nIsolationist,\nAnd dying\n\n" \
+                                                    "They hide amongst Everblooms\nGlowing in the snow\nNever to look down\nNever to know.", title="The Land of Butterflies")
 
     if choice == 'Warrior of the Seas':
         await interaction.response.send_message('You want to hear about her? Alright.', embed=siren, ephemeral=False)
@@ -191,6 +199,10 @@ async def story(
         await interaction.response.send_message('You want to hear about me?', embed=storyteller, ephemeral=False)
     if choice == 'The Creator':
         await interaction.response.send_message('Oh, them.', embed=mira, ephemeral=False)
+    if choice == 'That mountain called Apotheosis':
+        await interaction.response.send_message('It seems... familiar.', embed=apotheosis, ephemeral=False)
+    if choice == 'My homeland':
+        await interaction.response.send_message('What is there to say? We cannot fight a plague alone. We could not fight anything but ourselves.', ephemeral=False)
 
 @client.tree.command()
 async def do_you_have_a_map(
