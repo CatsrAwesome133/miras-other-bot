@@ -91,10 +91,11 @@ async def on_message(message):
     if message.author is client.user or message.author.bot:
         return
 
+    # haiku detector
     if_haiku = h.haiku_phrase(message.content)
     if if_haiku[0]:
          await message.add_reaction(HAIKU)
-         await message.reply(if_haiku[1] + f'*- A haiku by {message.author.name}*')
+         await message.reply(if_haiku[1] + f'*- A haiku by {message.author.display_name}*')
 
     # a greeting
     if 'hello' in message.content:
@@ -129,7 +130,7 @@ async def on_message(message):
     if r.random() < random_freq:
         await message.channel.send(r.choice(FUN))
 
-    if any(key in message.content for key in c) and r.randomm <= metric_chance:
+    if any(key in message.content for key in c) and r.random <= metric_chance:
         converted = metric(message.content, "you")
         if converted[2] != []:
             await message.channel.send(converted[0])
@@ -158,13 +159,13 @@ async def setup(
 ):
     """Some configuration options for the bot"""
     global target
-    global setup_text
     global metric_chance
     global random_freq
+    setup_text = ''
 
     if beef_at:
         target = beef_at.id
-        setup_text = f'**Beef at:** <@{target}>'
+        setup_text += f'**Beef at:** <@{target}>'
 
     if beef_at_id:
         if len(beef_at_id) == 18 or len(beef_at_id) == 19:

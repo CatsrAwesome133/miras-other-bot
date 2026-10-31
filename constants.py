@@ -1,7 +1,7 @@
 # for bot
 ANGLER = 1504819900957589555
 FRIEDFISH = '<:friedfish:1561070704844341410>'
-HAIKU = '📃'
+HAIKU = '<:haiku_placeholder:1566015165613473812>'
 HELLOS = [
     'Welcome.',
     'Hello!',
