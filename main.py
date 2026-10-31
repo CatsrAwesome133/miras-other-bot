@@ -1,8 +1,7 @@
-import discord
+import discord, os
 from discord import app_commands
 from typing import Literal, Optional
 import random as r
-import os
 from dotenv import load_dotenv
 import resources.text_to_string as tts
 from resources.similar_string import *
@@ -25,6 +24,8 @@ class MyClient(discord.Client):
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 target = ANGLER
+metric_chance = 0.85
+random_freq = 0.005
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -41,18 +42,19 @@ info = discord.Embed(color=0xaab2b9, description=tts.stringify(tts.path), title=
 # start/login stuff
 @client.event
 async def on_ready():
-    guild = discord.Object(id=GUILD)
-    client.tree.copy_global_to(guild=guild)
-
     print(f"\033[93mWe have logged in as {client.user}\033[0m")
 
+    #-- GUILD COMMAND SYNCS FOR TESTING --#
+    guild = discord.Object(id=GUILD)
+    client.tree.copy_global_to(guild=guild)
     guild_sync = await client.tree.sync(guild=guild)
     print(f"Synced {len(guild_sync)} commands:")
     for cmd in guild_sync:
         print(f" - {cmd.name}")
-    
-    synced = await client.tree.sync()
-    print(f"Synced {len(synced)} commands globally")
+
+    #-- GLOBAL COMMAND SYNCS, REPLACE GUILD SYNCS WHEN HOSTED --#
+    # synced = await client.tree.sync()
+    # print(f"Synced {len(synced)} commands globally")
 
 
 
@@ -73,13 +75,10 @@ async def on_message(message):
 
             elif 'hey' in message.content.lower():
                 await message.channel.send('"Hey" you!')
-
             elif 'shut up' in message.content.lower():
                 await message.channel.send('*You* should shut up.')
-
             elif 'what' in message.content.lower():
                 await message.channel.send('What?')
-
             elif 'stop' in message.content.lower():
                 await message.channel.send('You first!')
 
@@ -127,10 +126,10 @@ async def on_message(message):
         else:
             await message.channel.send("I do not see any units...")
 
-    if r.random() < 0.001:
+    if r.random() < random_freq:
         await message.channel.send(r.choice(FUN))
 
-    if any(key in message.content for key in c) and r.randomm <= 0.85:
+    if any(key in message.content for key in c) and r.randomm <= metric_chance:
         converted = metric(message.content, "you")
         if converted[2] != []:
             await message.channel.send(converted[0])
@@ -146,24 +145,50 @@ async def on_message(message):
 @client.tree.command()
 @app_commands.describe(
     beef_at='By default this bot hates the Angler. Change this here.',
-    beef_at_id= "You can also use the target's user ID",
+    beef_at_id= "You can also use the target's user ID.",
+    random_metric='Whether or not to randomise how often the bot automatically converts imperial units to metric. Default True.',
+    random_message_frequency='How often the bot sends random messages, in chance per message. Default 0.005, please enter a decimal chance.',
 )
 async def setup(
     interaction: discord.Interaction,
     beef_at: Optional[discord.User],
-    beef_at_id: Optional[int],
+    beef_at_id: Optional[str],
+    random_metric: Optional[bool],
+    random_message_frequency: Optional[float],
 ):
     """Some configuration options for the bot"""
     global target
     global setup_text
+    global metric_chance
+    global random_freq
 
     if beef_at:
         target = beef_at.id
         setup_text = f'**Beef at:** <@{target}>'
 
     if beef_at_id:
-        target = beef_at_id
-        setup_text = f'**Beef at:** <@{target}>'
+        if len(beef_at_id) == 18 or len(beef_at_id) == 19:
+            try:
+                target = int(beef_at_id)
+                setup_text = f'**Beef at:** <@{target}>'
+            except ValueError:
+                await interaction.response.send_message('That is not a valid user ID.', ephemeral=True)
+                return
+
+    if random_metric is not None:
+        if random_metric:
+            metric_chance = 0.85
+        else:
+            metric_chance = 1
+        setup_text += f'**Always convert imperial to metric:** {not random_metric}'
+
+    if random_message_frequency:
+        if random_message_frequency < 1:
+            random_freq = random_message_frequency
+            setup_text += f'**Random message every:** {round(1/random_freq)} messages'
+        else:
+            await interaction.response.send_message('Random message frequency must be a decimal smaller than 1', ephemeral=True)
+            return
     
     setup_info = discord.Embed(color=0xaab2b9, description=setup_text, title="You've changed these settings:")
     await interaction.response.send_message('', embed=setup_info, ephemeral=False)

@@ -21,15 +21,49 @@ However, the list below is probably more accurate.
 ## To **Host** This Bot
 You need to install some libraries.
 ```bash
-python3 -m pip install -U discord.py
-# on windows, use the following rather than the former:
-py -3 -m pip install -U discord.py
 pip install nltk
 pip install python-dotenv
 pip install syllables
+python3 -m pip install -U discord.py
+# on windows, use the following rather than the former:
+py -3 -m pip install -U discord.py
 ```
 
 You also need to setup a .env file with your bot token. It should look like this:
 ```
 DISCORD_TOKEN=Your_Token_Here
+```
+
+In addition, you should replace `GUILD` in `constants.py` with your own server ID or change the following code in `main.py` in order for the bot to function.
+
+Replacing `GUILD` will keep the bot commands functional only in the selected server, while changing the code will allow them to be exceuted from any server with the bot.
+```py
+# start/login stuff
+@client.event
+async def on_ready():
+    print(f"\033[93mWe have logged in as {client.user}\033[0m")
+
+    #-- GUILD COMMAND SYNCS FOR TESTING --#             # DELETE
+    guild = discord.Object(id=GUILD)                    # THIS
+    client.tree.copy_global_to(guild=guild)             # SECTION
+    guild_sync = await client.tree.sync(guild=guild)    #
+    print(f"Synced {len(guild_sync)} commands:")        #
+    for cmd in guild_sync:                              #
+        print(f" - {cmd.name}")                         #
+
+    #-- GLOBAL COMMAND SYNCS, REPLACE GUILD SYNCS WHEN HOSTED --#
+    #synced = await client.tree.sync()                   # REMOVE THE HASHTAGS
+    #print(f"Synced {len(synced)} commands globally")    # FROM THIS
+```
+
+It should look like this when you're done.
+```py
+# start/login stuff
+@client.event
+async def on_ready():
+    print(f"\033[93mWe have logged in as {client.user}\033[0m")
+
+    #-- GLOBAL COMMAND SYNCS, REPLACE GUILD SYNCS WHEN HOSTED --#
+    synced = await client.tree.sync()
+    print(f"Synced {len(synced)} commands globally")
 ```

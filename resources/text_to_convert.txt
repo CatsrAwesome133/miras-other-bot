@@ -3,4 +3,8 @@
 
 `!flip` or `!coinflip`: flips a coin
 
-`!metricthis`: converts the subject of the reply to metric
+`!metricthis`: converts the units in the previous message to metric
+
+`/story`: hear a story
+
+`/do_you_have_a_map`: ask if we have a map
