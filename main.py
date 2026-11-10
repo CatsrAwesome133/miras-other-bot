@@ -207,17 +207,33 @@ async def help(
 @client.tree.command()
 async def story(
     interaction: discord.Interaction,
-    choice: Literal["My homeland", "That mountain called Apotheosis", "Warrior of the Seas", "Muse of the Skies", "The Creator"]
+    choice: Literal[
+        "My homeland", 
+        "That mountain called Apotheosis", 
+        "Warrior of the Seas", 
+        "Muse of the Skies", 
+        "Tyrant of the Earth", 
+        "The Lost King", 
+        "The Creator"]
 ):
+    
     """Hear about our stories"""
     siren = discord.Embed(color=0xaab2b9, description="A terror, a gale.\nA kind mother.\nBut many would dispute that.\n\n" \
                                                     "Once she found a pair of twins in the sky.\nThey ran, and I never found out why.\nI hear they live today, running about doing void knows what.", title="Siren of the Seas")
     storyteller = discord.Embed(color=0xaab2b9, description="Singer-Storyteller: Long-dead and long-forgotten, \nthough I recall \na little moth singing about me.\n\n" \
-                                                    "Fly in the skies and a visage may show.\nBut who you may see you shall never know.", title="I'm irrelevant.")
+                                                    "Fly in the skies and a visage may show.\nBut who you would see you shall never know.", title="I'm irrelevant.") ### Author's note: I have no idea who that moth is either and I wrote this lmao
     mira = discord.Embed(color=0xaab2b9, description="She's an interesting one.\nA bird who never flies,\nExcept in the mind's eye.\n\n" \
                                                     "Speak your dreams, and\nWrite our tales.\nYou may find them... here.", title="A Sparrow who draws")
     apotheosis = discord.Embed(color=0xaab2b9, description="Someone wrote about this for homework.\nIsolationist,\nAnd dying\n\n" \
                                                     "They hide amongst Everblooms\nGlowing in the snow\nNever to look down\nNever to know.", title="The Land of Butterflies")
+    terra = discord.Embed(color=0xaab2b9, description="A monster, both pitied and bound. \nFollow in your father's footsteps,\nLive forever in his shadow\n\n"
+                                                    "Claim the Earth and the sky will fall \nClaim the Earth and the sea shall maul \nHer fears were unavoidable, \nHer hopes were unacheivable\n\n" \
+                                                    "I remember her father. He thought, \nHe could do my work \nLook how that ended for us all.", title="Terra, though she was something less at first")
+    verdospore = discord.Embed(color=0xaab2b9, description="They were my people once. \nThose who gave me life \nAnd yet would claim otherwise \n\n" \
+                                                        "Would also blame their gods for inaction, \nBlame themselves among their factions\n\n" \
+                                                        "I couldn't do anything \nSo they looked to Fear for everything, \nWhile the aid of Hope sat behind a question, \nWhile the end and destruction lay behind a suggestion", title="A Forest Cloaked in Death")
+    coalstrand = discord.Embed(color=0xaab2b9, description="Have you heard of the Void? \nIt is beyond dangerous \nThough we know its commander, \nThey hold very little control\n\n" \
+                                                    "Little King so terrified, \nWho would live with Death to escape it-\nLook at all the bodies,\nEven Nothing would resent your vice.", title="Sand of Void and Sea of Sorrow")
 
     if choice == 'Warrior of the Seas':
         await interaction.response.send_message('You want to hear about her? Alright.', embed=siren, ephemeral=False)
@@ -228,7 +244,11 @@ async def story(
     if choice == 'That mountain called Apotheosis':
         await interaction.response.send_message('It seems... familiar.', embed=apotheosis, ephemeral=False)
     if choice == 'My homeland':
-        await interaction.response.send_message('What is there to say? We cannot fight a plague alone. We could not fight anything but ourselves.', ephemeral=False)
+        await interaction.response.send_message('What is there to say? We cannot fight a plague alone. We could not fight anything but ourselves.', embed=verdospore, ephemeral=False)
+    if choice == 'Tyrant of the Earth':
+        await interaction.response.send_message('Ah, a story long past my time. But no-one else has claimed this role yet, so we will tell it:', embed=terra, ephemeral=False)
+    if choice == 'The Lost King':
+        await interaction.response.send_message('I heard: an automaton lies suspended in the Palace to this day. It has become the highest Abyss.', embed=coalstrand, ephemeral=False)
 
 @client.tree.command()
 async def do_you_have_a_map(

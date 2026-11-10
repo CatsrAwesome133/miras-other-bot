@@ -6,9 +6,9 @@
 - ~~unit conversion ~~ $\color{green}{\text{DONE}}$
     - (trigger weirdly ie. "IM NOT AMERICAN") $\color{blue}{\text{IN PROGRESS}}$
 - remindme
-- setup function
-    - random message frequency
-    - allow changing target of beef
+- setup function $\color{blue}{\text{IN PROGRESS}}$
+    - ~~random message frequency~~
+    - ~~allow changing target of beef~~
 
 ## Haiku
 - ~~detect total syllables~~ $\color{green}{\text{DONE}}$
