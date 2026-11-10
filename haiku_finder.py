@@ -20,7 +20,11 @@ def get_syllables(word):
 
 
 def haiku_phrase(phrase):
-    words = phrase.split(' ')
+    temp = phrase.split(' ')
+    words = []
+    for i in temp:
+        for j in i.split('\n'):
+            words.append(j)
     print(words)
     counter = 0
     syllables = 0
@@ -58,7 +62,7 @@ if __name__ == '__main__':
     text = "HEllo!"
 
     print(haiku_phrase("and today i had a cake"))
-    print(haiku_phrase("An old silent pond, \nA frog jumps into the pond, \nSplash! Silence again."))
+    print(haiku_phrase("An old silent pond,\nA frog jumps into the pond,\nSplash! Silence again."))
     print(haiku_phrase("An old silent, ponder frog jumps into the pond, Splash! Silence again."))
-    print(haiku_phrase("also can't believe the placeholder name is now like official"))
+    print(haiku_phrase("also can't believe the\nplaceholder name is now like official"))
     #print(get_syllables("".join([char for char in text if char.isalpha()])))

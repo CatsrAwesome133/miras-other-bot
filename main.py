@@ -26,6 +26,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 target = ANGLER
 metric_chance = 0.85
 random_freq = 0.005
+haiku_last_msg = False
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -63,6 +64,7 @@ async def on_ready():
 async def on_message(message):
     global last_sender
     global last_message
+    global haiku_last_msg
 
     # specifically for my one single tupperbox
     if message.author.id == target:
@@ -91,11 +93,18 @@ async def on_message(message):
     if message.author is client.user or message.author.bot:
         return
 
+    # orpheus inspired me
+    if haiku_last_msg and any (i in message.content.lower() for i in THANKS):
+        await message.channel.send(r.choice(YOURE_WELCOME))
+    
     # haiku detector
     if_haiku = h.haiku_phrase(message.content)
     if if_haiku[0]:
-         await message.add_reaction(HAIKU)
-         await message.reply(if_haiku[1] + f'*- A haiku by {message.author.display_name}*')
+        await message.add_reaction(HAIKU)
+        await message.reply(if_haiku[1] + f'*- A haiku by {message.author.display_name}*')
+        haiku_last_msg = True
+    else:
+        haiku_last_msg = False
 
     # a greeting
     if 'hello' in message.content:
@@ -106,6 +115,7 @@ async def on_message(message):
         await message.channel.send('yes')
         await message.channel.send(FRIEDFISH)
 
+    # non-slash commandss
     if '!flip' in message.content or '!coinflip' in message.content:
         await message.channel.send(r.choice(COINS))
 
@@ -126,6 +136,10 @@ async def on_message(message):
                 await message.channel.send("I am confused too.")
         else:
             await message.channel.send("I do not see any units...")
+
+    if '!settings' in message.content:
+        embed = discord.Embed(color=0xaab2b9, description=f"**Beefing at:** <@{target}>\n**Random messages:** every {round(1/random_freq)} messages\n**Randomize metric conversions:** {metric_chance >= 1}\n**Metric conversions:** {metric_chance > 0}", title="Current settings:")
+        await message.channel.send("", embed=embed)
 
     if r.random() < random_freq:
         await message.channel.send(r.choice(FUN))
@@ -148,6 +162,7 @@ async def on_message(message):
     beef_at='By default this bot hates the Angler. Change this here.',
     beef_at_id= "You can also use the target's user ID.",
     random_metric='Whether or not to randomise how often the bot automatically converts imperial units to metric. Default True.',
+    convert_to_metric='Wether or not to converty *any* messages to metric. Takes priority over randomizing.',
     random_message_frequency='How often the bot sends random messages, in chance per message. Default 0.005, please enter a decimal chance.',
 )
 async def setup(
@@ -155,6 +170,7 @@ async def setup(
     beef_at: Optional[discord.User],
     beef_at_id: Optional[str],
     random_metric: Optional[bool],
+    convert_to_metric: Optional[bool],
     random_message_frequency: Optional[float],
 ):
     """Some configuration options for the bot"""
@@ -183,6 +199,11 @@ async def setup(
             metric_chance = 1
         setup_text += f'**Always convert imperial to metric:** {not random_metric}'
 
+    if convert_to_metric is not None:
+            if not convert_to_metric:
+                metric_chance = 0
+            setup_text += f'**Convert imperial to metric:** {convert_to_metric}'
+
     if random_message_frequency:
         if random_message_frequency < 1:
             random_freq = random_message_frequency
@@ -202,6 +223,14 @@ async def help(
     """Shows a list of commands and other helpful stuff"""
     global setup_text
     await interaction.response.send_message('', embed=info, ephemeral=False)
+
+
+@client.tree.command()
+async def flip(
+    interaction: discord.Interaction,
+):
+    """Flip a coin"""
+    await interaction.response.send_message(r.choice(COINS), ephemeral=False)
 
 
 @client.tree.command()

@@ -22,6 +22,8 @@ FUN = [
     "Anyone care to brief the silly butterfly on our current situation?",
     "Ah! Words!"
 ]
+THANKS = ["ty storyteller", "thanks storyteller", "thanks bot", "ty bot", "thanks", "ty"]
+YOURE_WELCOME = ["You are very welcome!", "Thank *you* for the brilliant poem.", ":D"]
 
 # for tools
 c = {

@@ -1,7 +1,9 @@
 `!help` or `/help`: this command! lists out all currently available commands 
 `/setup`: lets you configure some bot settings
 
-`!flip` or `!coinflip`: flips a coin
+`!settings`: shows the bot's current configuration
+
+`!flip`, `/flip`, or `!coinflip`: flips a coin
 
 `!metricthis`: converts the units in the previous message to metric
 
