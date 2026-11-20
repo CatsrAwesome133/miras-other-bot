@@ -5,10 +5,11 @@
 - code in some basic random conversations (ie. skybot)
 - ~~unit conversion ~~ $\color{green}{\text{DONE}}$
     - (trigger weirdly ie. "IM NOT AMERICAN") $\color{blue}{\text{IN PROGRESS}}$
-- remindme
+- $\color{red}{\text{remindme}}$
 - setup function $\color{blue}{\text{IN PROGRESS}}$
     - ~~random message frequency~~
     - ~~allow changing target of beef~~
+- what time is it in pharloom good sir
 
 ## Haiku
 - ~~detect total syllables~~ $\color{green}{\text{DONE}}$
@@ -18,5 +19,7 @@
 ## Others
 - ~~draw pfp and banner~~ $\color{green}{\text{DONE}}$
 - use stack for metric conversion
+- draw haiku icon
+- write poems for every kingdom in docs $\color{blue}{\text{IN PROGRESS}}$
 
 $\color{blue}{\text{IN PROGRESS}}$

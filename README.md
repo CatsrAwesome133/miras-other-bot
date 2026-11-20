@@ -19,6 +19,10 @@ However, the list below is probably more accurate.
 ...is [this](https://discord.com/oauth2/authorize?client_id=1561063746883948686&permissions=76864&response_type=code&redirect_uri=https%3A%2F%2Fmirwx.neocities.org%2F&integration_type=0&scope=messages.read+bot)
 
 ## To **Host** This Bot
+I'll have an executable you can run to host in the future.
+
+For now:
+
 You need to install some libraries.
 ```bash
 pip install nltk

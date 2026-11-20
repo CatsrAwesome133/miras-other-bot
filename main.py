@@ -26,7 +26,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 target = ANGLER
 metric_chance = 0.85
 random_freq = 0.005
-haiku_last_msg = False
+last_status = ""
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -58,18 +58,23 @@ async def on_ready():
     # print(f"Synced {len(synced)} commands globally")
 
 
+############# STATUSES #########################################
+### 'h'     Haiku                                            ###
+### 'i'     Just introduced                                  ###
+### 'a'     Archives "Easter Egg"                            ###
+################################################################
 
 # on message
 @client.event
 async def on_message(message):
     global last_sender
     global last_message
-    global haiku_last_msg
+    global last_status
 
-    # specifically for my one single tupperbox
+    # ignores the bot return so beef with other bots works
     if message.author.id == target:
+            # little condition since Angler has a prefix notation too
             if 'a:' in last_message.content.lower():
-                # little condition since Angler has a prefix notation too
                 await message.channel.send(r.choice(give_msg_back(last_sender.display_name)))
 
             elif similar(last_message.content, message.content):
@@ -87,14 +92,20 @@ async def on_message(message):
             else:
                 if r.random() < 0.2:
                     await message.channel.send('Shut up.')
+                elif r.random() < 0.2:
+                    await message.channel.send('Tsk.')
                  
 
     # ignores bot messages
     if message.author is client.user or message.author.bot:
         return
 
+    # because he's the god of the sky lol
+    if message.content.strip().lower() == 'sky':
+        await message.channel.send('Yes?')
+
     # orpheus inspired me
-    if haiku_last_msg and any (i in message.content.lower() for i in THANKS):
+    if last_status == 'h' and any (i in message.content.lower() for i in THANKS):
         await message.channel.send(r.choice(YOURE_WELCOME))
     
     # haiku detector
@@ -102,9 +113,9 @@ async def on_message(message):
     if if_haiku[0]:
         await message.add_reaction(HAIKU)
         await message.reply(if_haiku[1] + f'*- A haiku by {message.author.display_name}*')
-        haiku_last_msg = True
+        last_status = 'h'
     else:
-        haiku_last_msg = False
+        last_status = ''
 
     # a greeting
     if 'hello' in message.content:
@@ -141,15 +152,30 @@ async def on_message(message):
         embed = discord.Embed(color=0xaab2b9, description=f"**Beefing at:** <@{target}>\n**Random messages:** every {round(1/random_freq)} messages\n**Randomize metric conversions:** {metric_chance >= 1}\n**Metric conversions:** {metric_chance > 0}", title="Current settings:")
         await message.channel.send("", embed=embed)
 
+    # introduction
+    if any (i in message.content for i in INTRO):
+            await message.channel.send("Hello! I am the Singer-Storyteller, but you can just call me Storyteller. Or Haiku, if you would like an in-joke! I prefer he/him, but I *am* a discord bot, so feel free to use it/its as well. The Sparrow made me to die, but I live on in their computer. Ha!")
+            last_status = "i"
+
+    # random messages for funsies
     if r.random() < random_freq:
         await message.channel.send(r.choice(FUN))
 
+
+    if "the archive" in message.content.lower():
+        await message.channel.send("What archives?")
+        last_status = 'a0'
+
+    # auto metric conversion
     if any(key in message.content for key in c) and r.random <= metric_chance:
         converted = metric(message.content, "you")
         if converted[2] != []:
             await message.channel.send(converted[0])
             if converted[1]:
                 await message.channel.send("I am confused too.")
+            if r.random < 0.1:
+                await message.channel.send("If that didn't contain units, my greatest apologies. We are not that smart.")
+
 
     last_sender = message.author
     last_message = message
@@ -161,16 +187,14 @@ async def on_message(message):
 @app_commands.describe(
     beef_at='By default this bot hates the Angler. Change this here.',
     beef_at_id= "You can also use the target's user ID.",
-    random_metric='Whether or not to randomise how often the bot automatically converts imperial units to metric. Default True.',
-    convert_to_metric='Wether or not to converty *any* messages to metric. Takes priority over randomizing.',
+    convert_to_metric='Wether or not to automatically convert messsages with units to metric',
     random_message_frequency='How often the bot sends random messages, in chance per message. Default 0.005, please enter a decimal chance.',
 )
 async def setup(
     interaction: discord.Interaction,
     beef_at: Optional[discord.User],
     beef_at_id: Optional[str],
-    random_metric: Optional[bool],
-    convert_to_metric: Optional[bool],
+    convert_to_metric: Optional[Literal["Always", "Randomized", "Never Automatically"]],
     random_message_frequency: Optional[float],
 ):
     """Some configuration options for the bot"""
@@ -192,16 +216,14 @@ async def setup(
                 await interaction.response.send_message('That is not a valid user ID.', ephemeral=True)
                 return
 
-    if random_metric is not None:
-        if random_metric:
-            metric_chance = 0.85
-        else:
-            metric_chance = 1
-        setup_text += f'**Always convert imperial to metric:** {not random_metric}'
-
     if convert_to_metric is not None:
-            if not convert_to_metric:
+            if convert_to_metric == "Always":
+                metric_chance = 1
+            elif convert_to_metric == "Never Automatically":
                 metric_chance = 0
+            elif convert_to_metric == "Randomized":
+                metric_chance = 0.8
+            
             setup_text += f'**Convert imperial to metric:** {convert_to_metric}'
 
     if random_message_frequency:
@@ -243,6 +265,8 @@ async def story(
         "Muse of the Skies", 
         "Tyrant of the Earth", 
         "The Lost King", 
+        "A Kingdom beyond a Draught",
+        "Wielder of Smoke",
         "The Creator"]
 ):
     
@@ -263,6 +287,11 @@ async def story(
                                                         "I couldn't do anything \nSo they looked to Fear for everything, \nWhile the aid of Hope sat behind a question, \nWhile the end and destruction lay behind a suggestion", title="A Forest Cloaked in Death")
     coalstrand = discord.Embed(color=0xaab2b9, description="Have you heard of the Void? \nIt is beyond dangerous \nThough we know its commander, \nThey hold very little control\n\n" \
                                                     "Little King so terrified, \nWho would live with Death to escape it-\nLook at all the bodies,\nEven Nothing would resent your vice.", title="Sand of Void and Sea of Sorrow")
+    nemira = discord.Embed(color=0xaab2b9, description="I think our friend found it from a haiku \nListing the faults of mortals \n Placed against looming odds.\n\n" \
+                                                        "Throw yourself into the flames, \nAnd yet another shall take the blame.", title="Risen From Ashes and Fated to Burn")
+    dalvane = discord.Embed(color=0xaab2b9, description="You thought yourself so great, \nBeyond Hope and Fear \nWinning the war you raged \n\n" \
+                                                            "Did you forget \nThe people you rule \nAnd the ones standing at your side? \nOf course you did; young fool.", title="Not a Very Nice Neighbor at All.")
+    
 
     if choice == 'Warrior of the Seas':
         await interaction.response.send_message('You want to hear about her? Alright.', embed=siren, ephemeral=False)
@@ -278,6 +307,11 @@ async def story(
         await interaction.response.send_message('Ah, a story long past my time. But no-one else has claimed this role yet, so we will tell it:', embed=terra, ephemeral=False)
     if choice == 'The Lost King':
         await interaction.response.send_message('I heard: an automaton lies suspended in the Palace to this day. It has become the highest Abyss.', embed=coalstrand, ephemeral=False)
+    if choice == 'A Kingdom beyond a Draught':
+        await interaction.response.send_message('Ah, such a short-lived dream. Or perhaps it was a nightmare; you can decide.', embed=nemira, ephemeral=False)
+    if choice == 'Wielder of Smoke':
+            await interaction.response.send_message('Well, hubris *is* the end of us all.', embed=dalvane, ephemeral=False)
+    
 
 @client.tree.command()
 async def do_you_have_a_map(
