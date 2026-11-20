@@ -161,10 +161,17 @@ async def on_message(message):
     if r.random() < random_freq:
         await message.channel.send(r.choice(FUN))
 
-
+    # conversation regarding the Archives
     if "the archive" in message.content.lower():
         await message.channel.send("What archives?")
         last_status = 'a0'
+    # resets the status
+    elif last_status == 'a0': 
+        last_status = ''
+
+    if ("you know the one" in message.content.lower() or "you know" in message.content.lower() or "yk the one" in message.content.lower()) and last_status == "a0":
+            await message.channel.send("I do not beleive so?")
+            last_status = ''
 
     # auto metric conversion
     if any(key in message.content for key in c) and r.random <= metric_chance:

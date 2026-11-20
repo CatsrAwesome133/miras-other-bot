@@ -5,6 +5,8 @@
 
 `!flip`, `/flip`, or `!coinflip`: flips a coin
 
+`!intro`: have me introduce ourselves!
+
 `!metricthis`: converts the units in the previous message to metric
 
 `/story`: hear a story

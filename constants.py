@@ -24,7 +24,7 @@ FUN = [
 ]
 THANKS = ["ty storyteller", "thanks storyteller", "thanks bot", "ty bot", "thanks", "ty"]
 YOURE_WELCOME = ["You are very welcome!", "Thank *you* for the brilliant poem.", ":D"]
-INTRO = ["a"]
+INTRO = ["who are you bot", "who are you storyteller", "what's the bot for", "whats the bot for", "what is the bot for", "hello storyteller", "!intro"]
 
 # for tools
 c = {
