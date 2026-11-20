@@ -2,7 +2,7 @@
 - ~~finish up haiku detector~~ $\color{green}{\text{DONE}}$
 - code in fish beef
     - beef with random person every day
-- code in some basic random conversations (ie. skybot)
+- ~~code in some basic random conversations (ie. skybot)~~ $\color{green}{\text{DONE}}$
 - ~~unit conversion ~~ $\color{green}{\text{DONE}}$
     - (trigger weirdly ie. "IM NOT AMERICAN") $\color{blue}{\text{IN PROGRESS}}$
 - $\color{red}{\text{remindme}}$
@@ -10,6 +10,7 @@
     - ~~random message frequency~~
     - ~~allow changing target of beef~~
 - what time is it in pharloom good sir
+- per-server settings w/ db
 
 ## Haiku
 - ~~detect total syllables~~ $\color{green}{\text{DONE}}$

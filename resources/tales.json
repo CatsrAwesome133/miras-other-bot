@@ -1,0 +1,157 @@
+[
+    {
+        "option": "Warrior of the Seas",
+        "title": "Siren of the Seas",
+        "poem": [
+            "A terror, a gale.",
+            "A kind mother.",
+            "But many would dispute that.",
+            "",
+            "Once she found a pair of twins in the sky.",
+            "They ran, and I never found out why.",
+            "I hear they live today, running about doing void knows what."
+        ],
+        "comment": "You want to hear about her? Alright."
+    },
+    
+    {
+        "option": "Muse of the Skies",
+        "title": "I'm irrelevant.",
+        "poem": [
+            "Singer-Storyteller: Long-dead and long-forgotten, ",
+            "though I recall ",
+            "a little moth singing about me.",
+            "",
+            "Fly in the skies and a visage may show.",
+            "But who you would see you shall never know."
+        ],
+        "comment": "You want to hear about me?"
+    },
+
+    {
+        "option": "Tyrant of the Earth",
+        "title": "Terra, though she was something less at first",
+        "poem": [
+            "A monster, both pitied and bound. ",
+            "Follow in your father's footsteps,",
+            "Live forever in his shadow",
+            "",
+            "Claim the Earth and the sky will fall ",
+            "Claim the Earth and the sea shall maul ",
+            "Her fears were unavoidable, ",
+            "Her hopes were unacheivable",
+            "",
+            "I remember her father. He thought, ",
+            "He could do my work: ",
+            "Look how that ended for us all."
+        ],
+        "comment": "Ah, a story long past my time. But no-one else has claimed this role yet, so we will tell it:"
+    },
+    
+    {
+        "option": "My homeland",
+        "title": "A Forest Cloaked in Death",
+        "poem": [
+            "They were my people once. ",
+            "Those who gave me life ",
+            "And yet would claim otherwise ",
+            "",
+            "Would also blame their gods for inaction, ",
+            "Blame themselves among their factions",
+            "",
+            "I couldn't do anything ",
+            "So they looked to Fear for everything, ",
+            "While the aid of Hope sat behind a question, ",
+            "While the end and destruction lay behind a suggestion"
+        ],
+        "comment": "What is there to say? We cannot fight a plague alone. We could not fight anything but ourselves."
+    },
+
+    {
+        "option": "That mountain called Apotheosis",
+        "title": "The Land of Butterflies",
+        "poem": [
+            "Someone wrote about this for homework.",
+            "Isolationist,",
+            "And dying",
+            "",
+            "They hide amongst Everblooms",
+            "Glowing in the snow",
+            "Never to look down",
+            "Never to know."
+        ],
+        "comment": "It seems... familiar."
+    },
+
+    {
+        "option": "The Lost King",
+        "title": "Sand of Void and Sea of Sorrow",
+        "poem": [
+            "Have you heard of the Void? ",
+            "It is beyond dangerous ",
+            "Though we know its commander, ",
+            "They hold very little control",
+            "",
+            "Little King so terrified, ",
+            "Who would live with Death to escape it-",
+            "Look at all the bodies,",
+            "Even Nothing would resent your vice."
+        ],
+        "comment": "I heard: an automaton lies suspended in the Palace to this day. It has become the highest Abyss."
+    },
+
+    {
+        "option": "A Kingdom beyond a Draught",
+        "title": "Risen From Ashes and Fated to Burn",
+        "poem": [
+            "I think our friend found it from a haiku ",
+            "Listing the faults of mortals ",
+            "Placed against looming odds.",
+            "",
+            "Throw yourself into the flames, ",
+            "And yet another shall take the blame."
+        ],
+        "comment": "Ah, such a short-lived dream. Or perhaps it was a nightmare; you can decide."
+    },
+
+    {
+        "option": "Wielder of Smoke",
+        "title": "Not a Very Nice Neighbor at All.",
+        "poem": [
+            "You thought yourself so great, ",
+            "Beyond Hope and Fear ",
+            "Winning the war you raged ",
+            "",
+            "Did you forget ",
+            "The people you rule ",
+            "And the ones standing at your side? ",
+            "",
+            "Of course you did; young fool."
+        ],
+        "comment": "Well, hubris *is* the end of us all."
+    },
+
+    {
+        "option": "placeholder",
+        "title": "placeholder",
+        "poem": [
+            "placeholder"
+        ],
+        "comment": "placeholder"
+    },
+
+    {
+        "option": "The Creator",
+        "title": "A Sparrow who draws",
+        "poem": [
+            "She's an interesting one.",
+            "A bird who never flies,",
+            "Except in the mind's eye.",
+            "",
+            "Speak your dreams, and",
+            "Write our tales.",
+            "You may find them... here."
+        ],
+        "comment": "Oh, them."
+    }
+]

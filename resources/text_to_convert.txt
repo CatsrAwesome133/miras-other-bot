@@ -5,7 +5,7 @@
 
 `!flip`, `/flip`, or `!coinflip`: flips a coin
 
-`!intro`: have me introduce ourselves!
+`!intro` or `!about`: have me introduce ourselves!
 
 `!metricthis`: converts the units in the previous message to metric
 

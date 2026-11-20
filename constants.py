@@ -15,16 +15,18 @@ HELLO_WEIGHTS = [
      0.1
 ]
 COINS = ['1','0']
-GUILD = 1504795388417150976
+GUILD = 1504795388417150976     # This variable is for testing! It syncs commands faster to my own server
 FUN = [
     "How's life?",
     "Hmm, someone in this conversation needs to sleep.",
     "Anyone care to brief the silly butterfly on our current situation?",
-    "Ah! Words!"
+    "Ah! Words!",
+    "Fine day to you all.",
+    "Has the fish committed any assault today?"
 ]
 THANKS = ["ty storyteller", "thanks storyteller", "thanks bot", "ty bot", "thanks", "ty"]
 YOURE_WELCOME = ["You are very welcome!", "Thank *you* for the brilliant poem.", ":D"]
-INTRO = ["who are you bot", "who are you storyteller", "what's the bot for", "whats the bot for", "what is the bot for", "hello storyteller", "!intro"]
+INTRO = ["who are you bot", "who are you storyteller", "what's the bot for", "whats the bot for", "what is the bot for", "hello storyteller", "!intro", "!about"]
 
 # for tools
 c = {

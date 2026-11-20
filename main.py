@@ -2,6 +2,7 @@ import discord, os
 from discord import app_commands
 from typing import Literal, Optional
 import random as r
+import json
 from dotenv import load_dotenv
 import resources.text_to_string as tts
 from resources.similar_string import *
@@ -23,6 +24,10 @@ class MyClient(discord.Client):
 # initializing
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
+
+with open('resources/tales.json', 'r') as f:
+    TALES = json.load(f)
+
 target = ANGLER
 metric_chance = 0.85
 random_freq = 0.005
@@ -154,7 +159,9 @@ async def on_message(message):
 
     # introduction
     if any (i in message.content for i in INTRO):
-            await message.channel.send("Hello! I am the Singer-Storyteller, but you can just call me Storyteller. Or Haiku, if you would like an in-joke! I prefer he/him, but I *am* a discord bot, so feel free to use it/its as well. The Sparrow made me to die, but I live on in their computer. Ha!")
+            await message.channel.send("Hello! I am the Singer-Storyteller, but you can just call me Storyteller. Or Haiku, if you would like an in-joke! I prefer he/him, but I *am* a discord bot, so feel free to use it/its as well. The Sparrow made me to die, but I live on in their computer. Ha!\n" \
+                                        "As a bot, I look around the server for haikus and chat sometimes! There's also this one fish... \n" \
+                                        "-# Use `!help` to find out more.")
             last_status = "i"
 
     # random messages for funsies
@@ -174,13 +181,13 @@ async def on_message(message):
             last_status = ''
 
     # auto metric conversion
-    if any(key in message.content for key in c) and r.random <= metric_chance:
+    if any(key in message.content for key in c) and r.random() <= metric_chance:
         converted = metric(message.content, "you")
         if converted[2] != []:
             await message.channel.send(converted[0])
             if converted[1]:
                 await message.channel.send("I am confused too.")
-            if r.random < 0.1:
+            if r.random() < 0.1:
                 await message.channel.send("If that didn't contain units, my greatest apologies. We are not that smart.")
 
 
@@ -263,63 +270,30 @@ async def flip(
 
 
 @client.tree.command()
+@app_commands.choices(
+    choice=[
+        app_commands.Choice(name=i["option"], value=i["option"])
+        for i in TALES
+    ]
+)
 async def story(
     interaction: discord.Interaction,
-    choice: Literal[
-        "My homeland", 
-        "That mountain called Apotheosis", 
-        "Warrior of the Seas", 
-        "Muse of the Skies", 
-        "Tyrant of the Earth", 
-        "The Lost King", 
-        "A Kingdom beyond a Draught",
-        "Wielder of Smoke",
-        "The Creator"]
+    choice: app_commands.Choice[str]
 ):
     
     """Hear about our stories"""
-    siren = discord.Embed(color=0xaab2b9, description="A terror, a gale.\nA kind mother.\nBut many would dispute that.\n\n" \
-                                                    "Once she found a pair of twins in the sky.\nThey ran, and I never found out why.\nI hear they live today, running about doing void knows what.", title="Siren of the Seas")
-    storyteller = discord.Embed(color=0xaab2b9, description="Singer-Storyteller: Long-dead and long-forgotten, \nthough I recall \na little moth singing about me.\n\n" \
-                                                    "Fly in the skies and a visage may show.\nBut who you would see you shall never know.", title="I'm irrelevant.") ### Author's note: I have no idea who that moth is either and I wrote this lmao
-    mira = discord.Embed(color=0xaab2b9, description="She's an interesting one.\nA bird who never flies,\nExcept in the mind's eye.\n\n" \
-                                                    "Speak your dreams, and\nWrite our tales.\nYou may find them... here.", title="A Sparrow who draws")
-    apotheosis = discord.Embed(color=0xaab2b9, description="Someone wrote about this for homework.\nIsolationist,\nAnd dying\n\n" \
-                                                    "They hide amongst Everblooms\nGlowing in the snow\nNever to look down\nNever to know.", title="The Land of Butterflies")
-    terra = discord.Embed(color=0xaab2b9, description="A monster, both pitied and bound. \nFollow in your father's footsteps,\nLive forever in his shadow\n\n"
-                                                    "Claim the Earth and the sky will fall \nClaim the Earth and the sea shall maul \nHer fears were unavoidable, \nHer hopes were unacheivable\n\n" \
-                                                    "I remember her father. He thought, \nHe could do my work \nLook how that ended for us all.", title="Terra, though she was something less at first")
-    verdospore = discord.Embed(color=0xaab2b9, description="They were my people once. \nThose who gave me life \nAnd yet would claim otherwise \n\n" \
-                                                        "Would also blame their gods for inaction, \nBlame themselves among their factions\n\n" \
-                                                        "I couldn't do anything \nSo they looked to Fear for everything, \nWhile the aid of Hope sat behind a question, \nWhile the end and destruction lay behind a suggestion", title="A Forest Cloaked in Death")
-    coalstrand = discord.Embed(color=0xaab2b9, description="Have you heard of the Void? \nIt is beyond dangerous \nThough we know its commander, \nThey hold very little control\n\n" \
-                                                    "Little King so terrified, \nWho would live with Death to escape it-\nLook at all the bodies,\nEven Nothing would resent your vice.", title="Sand of Void and Sea of Sorrow")
-    nemira = discord.Embed(color=0xaab2b9, description="I think our friend found it from a haiku \nListing the faults of mortals \n Placed against looming odds.\n\n" \
-                                                        "Throw yourself into the flames, \nAnd yet another shall take the blame.", title="Risen From Ashes and Fated to Burn")
-    dalvane = discord.Embed(color=0xaab2b9, description="You thought yourself so great, \nBeyond Hope and Fear \nWinning the war you raged \n\n" \
-                                                            "Did you forget \nThe people you rule \nAnd the ones standing at your side? \nOf course you did; young fool.", title="Not a Very Nice Neighbor at All.")
-    
+    # Monitoring the input ahsdkfeljb
+    chosen = False
 
-    if choice == 'Warrior of the Seas':
-        await interaction.response.send_message('You want to hear about her? Alright.', embed=siren, ephemeral=False)
-    if choice == 'Muse of the Skies':
-        await interaction.response.send_message('You want to hear about me?', embed=storyteller, ephemeral=False)
-    if choice == 'The Creator':
-        await interaction.response.send_message('Oh, them.', embed=mira, ephemeral=False)
-    if choice == 'That mountain called Apotheosis':
-        await interaction.response.send_message('It seems... familiar.', embed=apotheosis, ephemeral=False)
-    if choice == 'My homeland':
-        await interaction.response.send_message('What is there to say? We cannot fight a plague alone. We could not fight anything but ourselves.', embed=verdospore, ephemeral=False)
-    if choice == 'Tyrant of the Earth':
-        await interaction.response.send_message('Ah, a story long past my time. But no-one else has claimed this role yet, so we will tell it:', embed=terra, ephemeral=False)
-    if choice == 'The Lost King':
-        await interaction.response.send_message('I heard: an automaton lies suspended in the Palace to this day. It has become the highest Abyss.', embed=coalstrand, ephemeral=False)
-    if choice == 'A Kingdom beyond a Draught':
-        await interaction.response.send_message('Ah, such a short-lived dream. Or perhaps it was a nightmare; you can decide.', embed=nemira, ephemeral=False)
-    if choice == 'Wielder of Smoke':
-            await interaction.response.send_message('Well, hubris *is* the end of us all.', embed=dalvane, ephemeral=False)
-    
+    for opt in TALES:
+        if choice.value == opt["option"]:
+            embed = discord.Embed(color=0xaab2b9, description="\n".join(opt["poem"]), title=opt["title"])
+            await interaction.response.send_message(opt["comment"], embed=embed, ephemeral=False)
+            chosen = True
+    if not chosen:
+        await interaction.response.send_message('Invalid option', ephemeral=True)
 
+    
 @client.tree.command()
 async def do_you_have_a_map(
     interaction: discord.Interaction,
