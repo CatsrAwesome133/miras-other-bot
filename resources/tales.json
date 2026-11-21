@@ -132,12 +132,19 @@
     },
 
     {
-        "option": "placeholder",
-        "title": "placeholder",
+        "option": "City of Void",
+        "title": "Below Where Many Gods Fight",
         "poem": [
-            "placeholder"
+            "Remember the void?",
+            "It began here",
+            "So confused and so powerful.",
+            "",
+            "I remember the ones who fought,",
+            "Their faces and the time they bought",
+            "But I had long been gone,",
+            "And a Wyrm came bearing a song."
         ],
-        "comment": "placeholder"
+        "comment": "Ah, another recent story. I think, this one becomes quite important."
     },
 
     {
