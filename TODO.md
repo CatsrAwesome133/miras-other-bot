@@ -21,6 +21,6 @@
 - ~~draw pfp and banner~~ $\color{green}{\text{DONE}}$
 - use stack for metric conversion
 - draw haiku icon
-- write poems for every kingdom in docs $\color{blue}{\text{IN PROGRESS}}$
+- ~~write poems for every kingdom in docs~~ $\color{green}{\text{DONE}}$
 
 $\color{blue}{\text{IN PROGRESS}}$

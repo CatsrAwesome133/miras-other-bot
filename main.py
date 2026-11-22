@@ -4,6 +4,8 @@ from typing import Literal, Optional
 import random as r
 import json
 from dotenv import load_dotenv
+from datetime import datetime, UTC
+import sqlite3
 import resources.text_to_string as tts
 from resources.similar_string import *
 from resources.metric import metric
@@ -27,6 +29,35 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 
 with open('resources/tales.json', 'r') as f:
     TALES = json.load(f)
+
+
+
+conn = sqlite3.connect("settings.db")
+cursor = conn.cursor()
+
+cursor.execute("""
+    CREATE TABLE IF NOT EXISTS settings (
+        id INTEGER PRIMARY KEY,
+        guild INTEGER,
+        target INTEGER,
+        random_freq FLOAT,
+        metric_chance FLOAT
+    )
+""")
+
+cursor.execute(
+    "INSERT INTO settings (guild, target, random_freq, metric_chance) VALUES (?, ?, ?, ?)",
+    (0, 0, 0.1, 0.1)
+)
+
+cursor.execute("SELECT * FROM settings")
+
+rows = cursor.fetchall() # list of tuples? [(1, 0, 0, 0.1, 0.1)]
+
+print(rows)
+
+conn.commit()
+conn.close()
 
 target = ANGLER
 metric_chance = 0.85
@@ -156,6 +187,9 @@ async def on_message(message):
     if '!settings' in message.content:
         embed = discord.Embed(color=0xaab2b9, description=f"**Beefing at:** <@{target}>\n**Random messages:** every {round(1/random_freq)} messages\n**Randomize metric conversions:** {metric_chance >= 1}\n**Metric conversions:** {metric_chance > 0}", title="Current settings:")
         await message.channel.send("", embed=embed)
+
+    if '' in message.content:
+        time = datetime.now(UTC)
 
     # introduction
     if any (i in message.content for i in INTRO):
