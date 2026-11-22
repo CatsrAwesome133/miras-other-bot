@@ -15,6 +15,8 @@ I may have used these external libraries:
 
 However, the list below is probably more accurate.
 
+Currently this bot is hosted on my laptop, this WILL change!! But I'm slightly out of time.
+
 ## Current Install Link
 ...is [this](https://discord.com/oauth2/authorize?client_id=1561063746883948686&permissions=76864&response_type=code&redirect_uri=https%3A%2F%2Fmirwx.neocities.org%2F&integration_type=0&scope=messages.read+bot)
 
