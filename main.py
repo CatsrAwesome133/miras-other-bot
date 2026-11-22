@@ -27,6 +27,8 @@ class MyClient(discord.Client):
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
+TOKEN = input("Bot Token: ")
+
 with open('resources/tales.json', 'r') as f:
     TALES = json.load(f)
 
@@ -82,16 +84,16 @@ async def on_ready():
     print(f"\033[93mWe have logged in as {client.user}\033[0m")
 
     #-- GUILD COMMAND SYNCS FOR TESTING --#
-    guild = discord.Object(id=GUILD)
-    client.tree.copy_global_to(guild=guild)
-    guild_sync = await client.tree.sync(guild=guild)
-    print(f"Synced {len(guild_sync)} commands:")
-    for cmd in guild_sync:
-        print(f" - {cmd.name}")
+    # guild = discord.Object(id=GUILD)
+    # client.tree.copy_global_to(guild=guild)
+    # guild_sync = await client.tree.sync(guild=guild)
+    # print(f"Synced {len(guild_sync)} commands:")
+    # for cmd in guild_sync:
+    #     print(f" - {cmd.name}")
 
-    #-- GLOBAL COMMAND SYNCS, REPLACE GUILD SYNCS WHEN HOSTED --#
-    # synced = await client.tree.sync()
-    # print(f"Synced {len(synced)} commands globally")
+    #-- GLOBAL COMMAND SYNCS --#
+    synced = await client.tree.sync()
+    print(f"Synced {len(synced)} commands globally")
 
 
 ############# STATUSES #########################################
