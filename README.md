@@ -20,7 +20,7 @@ I may have used these external libraries:
 However, the list below is probably more accurate.
 
 ## Current Install Link
-...is [this](https://discord.com/oauth2/authorize?client_id=1561063746883948686&permissions=76864&response_type=code&redirect_uri=https%3A%2F%2Fmirwx.neocities.org%2F&integration_type=0&scope=messages.read+bot)
+...is [this](https://discord.com/oauth2/authorize?client_id=1561063746883948686&permissions=412317240384&response_type=code&redirect_uri=https%3A%2F%2Fmirwx.neocities.org%2F&integration_type=0&scope=applications.commands+messages.read+bot)
 
 Also theres a server with literally only the bot [here](https://discord.gg/hK3JjvADq)
 
