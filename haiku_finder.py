@@ -37,14 +37,14 @@ def haiku_phrase(phrase):
     for word in words:
         counter += 1
 
-        if any(c.isalpha() for c in word):
+        if any(c.isalpha() for c in word) and word[0] != ':':
             temp = "".join([c for c in word if c.isalpha()])
             try:
                 syllables += get_syllables(temp)
             except TypeError:
                 # fallback with syllables
                 syllables += s.estimate(temp)
-            if syllables in [5, 12, 17]:
+            if syllables in [5, 12, 17, 18]:
                 bar.append(counter)
 
     if len(bar) == 3:
@@ -61,8 +61,10 @@ def haiku_phrase(phrase):
 if __name__ == '__main__':
     text = "HEllo!"
 
+    print(s.estimate("ajdfnglb"))
+
     print(haiku_phrase("and today i had a cake"))
-    print(haiku_phrase("An old silent pond,\nA frog jumps into the pond,\nSplash! Silence again."))
+    print(haiku_phrase("An old silent pond,\nA frog jumps into the pond,\nSplash! Silence again. ajdfnglb"))
     print(haiku_phrase("An old silent, ponder frog jumps into the pond, Splash! Silence again."))
     print(haiku_phrase("also can't believe the\nplaceholder name is now like official"))
     print(haiku_phrase("For today like I said, that split cost us around 1m and like 25~ seconds, we could've gotten a lower time, especially with 0 home delay."))
