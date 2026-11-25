@@ -65,4 +65,5 @@ if __name__ == '__main__':
     print(haiku_phrase("An old silent pond,\nA frog jumps into the pond,\nSplash! Silence again."))
     print(haiku_phrase("An old silent, ponder frog jumps into the pond, Splash! Silence again."))
     print(haiku_phrase("also can't believe the\nplaceholder name is now like official"))
+    print(haiku_phrase("For today like I said, that split cost us around 1m and like 25~ seconds, we could've gotten a lower time, especially with 0 home delay."))
     #print(get_syllables("".join([char for char in text if char.isalpha()])))

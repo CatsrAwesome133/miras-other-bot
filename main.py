@@ -27,7 +27,7 @@ class MyClient(discord.Client):
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
-TOKEN = input("Bot Token: ")
+# TOKEN = input("Bot Token: ")
 
 with open('resources/tales.json', 'r') as f:
     TALES = json.load(f)
@@ -37,15 +37,17 @@ with open('resources/tales.json', 'r') as f:
 conn = sqlite3.connect("settings.db")
 cursor = conn.cursor()
 
-cursor.execute("""
-    CREATE TABLE IF NOT EXISTS settings (
+cursor.execute(
+    '''
+    CREATE TABLE screw_it (
         id INTEGER PRIMARY KEY,
         guild INTEGER,
-        target INTEGER,
-        random_freq FLOAT,
-        metric_chance FLOAT
-    )
-""")
+        target TEXT,
+        random_freq DOUBLE,
+        metric_chance DOUBLE
+    );'''
+)
+
 
 ''' add a row
 cursor.execute(
@@ -54,11 +56,12 @@ cursor.execute(
 )
 '''
 
-cursor.execute("SELECT * FROM settings")
+cursor.execute(f"SELECT * FROM {TABLE}") # switch to settings later
 
 rows = cursor.fetchall() # list of tuples? [(1, 0, 0, 0.1, 0.1)]
+settings = {row["guild"]: dict(row) for row in rows}
 
-print(rows)
+print(settings)
 
 conn.commit()
 conn.close()
@@ -250,9 +253,10 @@ async def setup(
     random_message_frequency: Optional[float],
 ):
     """Some configuration options for the bot"""
-    global target
-    global metric_chance
-    global random_freq
+    global settings
+    target = 0
+    metric_chance = 0
+    random_freq = 0
     setup_text = ''
 
     conn = sqlite3.connect("settings.db")
@@ -289,15 +293,25 @@ async def setup(
             await interaction.response.send_message('Random message frequency must be a decimal smaller than 1', ephemeral=True)
             return
     
-    cursor.execute(f"SELECT * FROM settings WHERE guild = {interaction.guild}; ")
+    cursor.execute(f"SELECT * FROM {TABLE} WHERE guild = ?", (interaction.guild.id,))
 
     rows = cursor.fetchall() # list of tuples? [(1, 0, 0, 0.1, 0.1)]
 
     if rows == []:
         cursor.execute(
-            "INSERT INTO settings (guild, target, random_freq, metric_chance) VALUES (?, ?, ?, ?)",
-            (interaction.guild, 0, 0.1, 0.1)
+            f"INSERT INTO {TABLE} (guild, target, random_freq, metric_chance) VALUES (?, ?, ?, ?)",
+            (interaction.guild.id, target, random_freq, metric_chance)
         )
+    else:
+        cursor.execute(
+            f'''UPDATE {TABLE}
+            SET target = ?, random_freq = ?, metric_chance = ?
+            WHERE guild = ?; ''',
+            (target, random_freq, metric_chance, interaction.guild.id)
+        )
+
+    for row in rows:
+        print(row)
 
     conn.commit()
     conn.close()
