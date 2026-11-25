@@ -47,10 +47,12 @@ cursor.execute("""
     )
 """)
 
+''' add a row
 cursor.execute(
     "INSERT INTO settings (guild, target, random_freq, metric_chance) VALUES (?, ?, ?, ?)",
     (0, 0, 0.1, 0.1)
 )
+'''
 
 cursor.execute("SELECT * FROM settings")
 
@@ -253,6 +255,9 @@ async def setup(
     global random_freq
     setup_text = ''
 
+    conn = sqlite3.connect("settings.db")
+    cursor = conn.cursor()
+
     if beef_at:
         target = beef_at.id
         setup_text += f'**Beef at:** <@{target}>'
@@ -283,6 +288,19 @@ async def setup(
         else:
             await interaction.response.send_message('Random message frequency must be a decimal smaller than 1', ephemeral=True)
             return
+    
+    cursor.execute(f"SELECT * FROM settings WHERE guild = {interaction.guild}; ")
+
+    rows = cursor.fetchall() # list of tuples? [(1, 0, 0, 0.1, 0.1)]
+
+    if rows == []:
+        cursor.execute(
+            "INSERT INTO settings (guild, target, random_freq, metric_chance) VALUES (?, ?, ?, ?)",
+            (interaction.guild, 0, 0.1, 0.1)
+        )
+
+    conn.commit()
+    conn.close()
     
     setup_info = discord.Embed(color=0xaab2b9, description=setup_text, title="You've changed these settings:")
     await interaction.response.send_message('', embed=setup_info, ephemeral=False)
