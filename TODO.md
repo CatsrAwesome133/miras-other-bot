@@ -11,6 +11,7 @@
     - ~~allow changing target of beef~~
 - ~~what time is it in pharloom good sir~~ $\color{green}{\text{DONE}}$
 - ~~per-server settings w/ db~~ $\color{green}{\text{DONE}}$
+- name randomizer (like a wheel)
 
 ## Haiku
 - ~~detect total syllables~~ $\color{green}{\text{DONE}}$
@@ -24,5 +25,6 @@
 - draw coins (verdospore: fabric)
 - ~~write poems for every kingdom in docs~~ $\color{green}{\text{DONE}}$
 - fix metric conversion not catching units if they're the last word
+- debug beef thing
 
 $\color{blue}{\text{IN PROGRESS}}$

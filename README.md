@@ -1,13 +1,13 @@
 # Mira's Other Bot 
 (aka Storyteller - it comes from the previous name "Haiku" and an OC of mine)
 
-A discord bot that detects haikus and argues with you (sometimes)
+A discord bot that detects haikus and argues with you (sometimes). Contains random features like highly unreliable unit conversions and coin flipping (in binary)!
 
 Also he's got a ton of lore. Like, major-character-in-a-fanfiction amounts of lore. You can listen to some of it! (in poem form)
 
 The bot is now hosted! For reasons known as "I'm literally just running a script on a server", the bot may go down now and then. It should get itself back up within the day though.
 
-Updates on the bot will be pretty slow.
+Updates on the hosted bot may lag behind what you see in the source code.
 
 I may have used these external libraries:
 - pyspellchecker
