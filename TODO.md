@@ -10,7 +10,7 @@
     - ~~random message frequency~~
     - ~~allow changing target of beef~~
 - what time is it in pharloom good sir
-- per-server settings w/ db
+- per-server settings w/ db $\color{blue}{\text{IN PROGRESS}}$
 
 ## Haiku
 - ~~detect total syllables~~ $\color{green}{\text{DONE}}$
@@ -22,5 +22,6 @@
 - use stack for metric conversion
 - draw haiku icon
 - ~~write poems for every kingdom in docs~~ $\color{green}{\text{DONE}}$
+- fix metric conversion not catching units if they're the last word
 
 $\color{blue}{\text{IN PROGRESS}}$

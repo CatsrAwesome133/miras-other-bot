@@ -23,6 +23,44 @@ class MyClient(discord.Client):
         super().__init__(intents=intents)
         self.tree = app_commands.CommandTree(self)
 
+def fetch_settings(output):
+    conn = sqlite3.connect("settings.db")
+    conn.row_factory = sqlite3.Row 
+    cursor = conn.cursor()
+
+    cursor.execute(
+        '''
+        CREATE TABLE IF NOT EXISTS screw_it (
+            id INTEGER PRIMARY KEY,
+            guild INTEGER,
+            target TEXT,
+            random_freq DOUBLE,
+            metric_chance DOUBLE
+        );'''
+    )
+
+
+    ''' add a row
+    cursor.execute(
+        "INSERT INTO settings (guild, target, random_freq, metric_chance) VALUES (?, ?, ?, ?)",
+        (0, 0, 0.1, 0.1)
+    )
+    '''
+
+    cursor.execute(f"SELECT * FROM {TABLE}") # switch to settings later
+
+    rows = cursor.fetchall() # list of tuples? [(1, 0, 0, 0.1, 0.1)]
+    settings = {row["guild"]: dict(row) for row in rows}
+
+    if output:
+        print(settings)
+
+    conn.commit()
+    conn.close()
+
+    return settings
+
+
 # initializing
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -32,43 +70,8 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 with open('resources/tales.json', 'r') as f:
     TALES = json.load(f)
 
+settings = fetch_settings(True)
 
-
-conn = sqlite3.connect("settings.db")
-cursor = conn.cursor()
-
-cursor.execute(
-    '''
-    CREATE TABLE screw_it (
-        id INTEGER PRIMARY KEY,
-        guild INTEGER,
-        target TEXT,
-        random_freq DOUBLE,
-        metric_chance DOUBLE
-    );'''
-)
-
-
-''' add a row
-cursor.execute(
-    "INSERT INTO settings (guild, target, random_freq, metric_chance) VALUES (?, ?, ?, ?)",
-    (0, 0, 0.1, 0.1)
-)
-'''
-
-cursor.execute(f"SELECT * FROM {TABLE}") # switch to settings later
-
-rows = cursor.fetchall() # list of tuples? [(1, 0, 0, 0.1, 0.1)]
-settings = {row["guild"]: dict(row) for row in rows}
-
-print(settings)
-
-conn.commit()
-conn.close()
-
-target = ANGLER
-metric_chance = 0.85
-random_freq = 0.005
 last_status = ""
 
 intents = discord.Intents.default()
@@ -105,6 +108,7 @@ async def on_ready():
 ### 'h'     Haiku                                            ###
 ### 'i'     Just introduced                                  ###
 ### 'a'     Archives "Easter Egg"                            ###
+### 'm'     Last message was sent by this bot                ###
 ################################################################
 
 # on message
@@ -113,6 +117,23 @@ async def on_message(message):
     global last_sender
     global last_message
     global last_status
+    global settings
+
+
+    try: 
+        target = settings[message.guild.id]['target']
+    except KeyError:
+        target = str(ANGLER)
+
+    try:
+        metric_chance = settings[message.guild.id]['metric_chance']
+    except KeyError:
+        metric_chance = 0.8
+
+    try:
+        random_freq = settings[message.guild.id]['random_freq']
+    except KeyError:
+        random_freq = 0.005
 
     # ignores the bot return so beef with other bots works
     if message.author.id == target:
@@ -150,6 +171,13 @@ async def on_message(message):
     # orpheus inspired me
     if last_status == 'h' and any (i in message.content.lower() for i in THANKS):
         await message.channel.send(r.choice(YOURE_WELCOME))
+    global this
+    try:
+        if this.author == client.user and any (i in message.content.lower() for i in THANKS):
+            await message.channel.send(r.choice(YOURE_WELCOME))
+    except NameError:
+        pass
+    this = message
     
     # haiku detector
     if_haiku = h.haiku_phrase(message.content)
@@ -223,6 +251,7 @@ async def on_message(message):
 
     # auto metric conversion
     if any(key in message.content for key in c) and r.random() <= metric_chance:
+        print('yep converting')
         converted = metric(message.content, "you")
         if converted[2] != []:
             await message.channel.send(converted[0])
@@ -254,9 +283,23 @@ async def setup(
 ):
     """Some configuration options for the bot"""
     global settings
-    target = 0
-    metric_chance = 0
-    random_freq = 0
+
+    # Fetching current/default values
+    try: 
+        target = settings[interaction.guild.id]['target']
+    except KeyError:
+        target = str(ANGLER)
+
+    try:
+        metric_chance = settings[interaction.guild.id]['metric_chance']
+    except KeyError:
+        metric_chance = 0.8
+
+    try:
+        random_freq = settings[interaction.guild.id]['random_freq']
+    except KeyError:
+        random_freq = 0.005
+
     setup_text = ''
 
     conn = sqlite3.connect("settings.db")
@@ -270,7 +313,7 @@ async def setup(
         if len(beef_at_id) == 18 or len(beef_at_id) == 19:
             try:
                 target = int(beef_at_id)
-                setup_text = f'**Beef at:** <@{target}>'
+                setup_text = f'**Beef at:** <@{target}>\n'
             except ValueError:
                 await interaction.response.send_message('That is not a valid user ID.', ephemeral=True)
                 return
@@ -283,12 +326,12 @@ async def setup(
             elif convert_to_metric == "Randomized":
                 metric_chance = 0.8
             
-            setup_text += f'**Convert imperial to metric:** {convert_to_metric}'
+            setup_text += f'**Convert imperial to metric:** {convert_to_metric}\n'
 
     if random_message_frequency:
         if random_message_frequency < 1:
             random_freq = random_message_frequency
-            setup_text += f'**Random message every:** {round(1/random_freq)} messages'
+            setup_text += f'**Random message every:** {round(1/random_freq)} messages\n'
         else:
             await interaction.response.send_message('Random message frequency must be a decimal smaller than 1', ephemeral=True)
             return
@@ -310,12 +353,12 @@ async def setup(
             (target, random_freq, metric_chance, interaction.guild.id)
         )
 
-    for row in rows:
-        print(row)
-
     conn.commit()
     conn.close()
+
+    settings = fetch_settings(True)
     
+    setup_text = setup_text.strip('\n')
     setup_info = discord.Embed(color=0xaab2b9, description=setup_text, title="You've changed these settings:")
     await interaction.response.send_message('', embed=setup_info, ephemeral=False)
 

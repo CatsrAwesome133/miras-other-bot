@@ -37,7 +37,7 @@ def haiku_phrase(phrase):
     for word in words:
         counter += 1
 
-        if any(c.isalpha() for c in word) and word[0] != ':':
+        if any(c.isalpha() for c in word) and word[0] != '<':
             temp = "".join([c for c in word if c.isalpha()])
             try:
                 syllables += get_syllables(temp)
@@ -48,14 +48,14 @@ def haiku_phrase(phrase):
                 bar.append(counter)
 
     if len(bar) == 3:
-        print("Yep")
+        print("Yep haiku")
         lines = []
         lines.append("".join([w+" " for w in words[:bar[0]]]))
         lines.append("".join([w+" " for w in words[bar[0]:bar[1]]]))
         lines.append("".join([w+" " for w in words[bar[1]:]]))
         return True, "".join([line+"\n" for line in lines])
     else: 
-        print("Nop")
+        print("Nop :(")
         return False, ""
 
 if __name__ == '__main__':
