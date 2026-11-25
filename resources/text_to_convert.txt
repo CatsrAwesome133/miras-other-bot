@@ -9,6 +9,8 @@
 
 `!metricthis`: converts the units in the previous message to metric
 
+`!whattimeisit`: tells you the time in a random kingdom. sorry, we only have one right now.
+
 `/story`: hear a story
 
 `/do_you_have_a_map`: ask if we have a map

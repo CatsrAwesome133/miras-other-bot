@@ -4,11 +4,12 @@ from typing import Literal, Optional
 import random as r
 import json
 from dotenv import load_dotenv
-from datetime import datetime, UTC
 import sqlite3
+from time import sleep
 import resources.text_to_string as tts
 from resources.similar_string import *
 from resources.metric import metric
+from resources.time_conversion import now_ph
 from constants import *
 import haiku_finder as h
 
@@ -108,10 +109,12 @@ async def on_ready():
 ### 'h'     Haiku                                            ###
 ### 'i'     Just introduced                                  ###
 ### 'a'     Archives "Easter Egg"                            ###
-### 'm'     Last message was sent by this bot                ###
+### 't'     User got confused by Pharloom time :)            ###
 ################################################################
 
-# on message
+##########################################################################################
+### ON MESSAGE
+##########################################################################################
 @client.event
 async def on_message(message):
     global last_sender
@@ -223,8 +226,11 @@ async def on_message(message):
         embed = discord.Embed(color=0xaab2b9, description=f"**Beefing at:** <@{target}>\n**Random messages:** every {round(1/random_freq)} messages\n**Randomize metric conversions:** {metric_chance >= 1}\n**Metric conversions:** {metric_chance > 0}", title="Current settings:")
         await message.channel.send("", embed=embed)
 
-    if '' in message.content:
-        time = datetime.now(UTC)
+    if '!whattimeisit' in message.content:
+        await message.channel.send(f"Ah, it is currently {now_ph()[0]} in Pharloom.")
+        if r.random() < 0.3:
+            sleep(1)
+            await message.channel.send("Oh, did I forget to mention that we are from that place?")
 
     # introduction
     if any (i in message.content for i in INTRO):
@@ -246,8 +252,18 @@ async def on_message(message):
         last_status = ''
 
     if ("you know the one" in message.content.lower() or "you know" in message.content.lower() or "yk the one" in message.content.lower()) and last_status == "a0":
-            await message.channel.send("I do not beleive so?")
-            last_status = ''
+        await message.channel.send("I do not beleive so?")
+        last_status = ''
+
+    # because pharloom time is confusing
+    if "read"  in message.content.lower() and "the time" in message.content.lower() and "how" in message.content.lower():
+        await message.channel.send("Well, you know...")
+        last_status = 't'
+    elif last_status == 't': # elif prevents erasing other statuses
+        last_status = ''
+
+    if last_status == 't' and "confus" in message.content.lower():
+        await message.channel.send("Do not worry, all others are as well.")
 
     # auto metric conversion
     if any(key in message.content for key in c) and r.random() <= metric_chance:
@@ -266,7 +282,9 @@ async def on_message(message):
 
 
 
-# commands
+##########################################################################################
+### COMMANDS
+##########################################################################################
 @client.tree.command()
 @app_commands.describe(
     beef_at='By default this bot hates the Angler. Change this here.',
@@ -421,5 +439,7 @@ async def not_even_a_compass(
 
 
 
-# running the bot
+##########################################################################################
+### RUNNING THE BOT
+##########################################################################################
 client.run(TOKEN)

@@ -10,7 +10,7 @@
     - ~~random message frequency~~
     - ~~allow changing target of beef~~
 - what time is it in pharloom good sir
-- per-server settings w/ db $\color{blue}{\text{IN PROGRESS}}$
+- ~~per-server settings w/ db~~ $\color{green}{\text{DONE}}$
 
 ## Haiku
 - ~~detect total syllables~~ $\color{green}{\text{DONE}}$

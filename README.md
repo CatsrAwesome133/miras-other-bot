@@ -24,14 +24,14 @@ However, the list below is probably more accurate.
 
 Also theres a server with literally only the bot [here](https://discord.gg/hK3JjvADq)
 
-Try your best to not use /setup too much because!! Settings are synced across all servers!
+Settings are now per-server!!
 
 ## To **Host** This Bot
 I'll have an executable you can run to host in the future.
 
-For now:
+For now: Grab the source code.
 
-You need to install some libraries.
+Then, you need to install some libraries.
 ```bash
 pip install nltk
 pip install syllables
@@ -40,9 +40,9 @@ python3 -m pip install -U discord.py
 py -3 -m pip install -U discord.py
 ```
 
-And then input your bot token when prompted!
+Open main.py and, somewhere below `# initializing` (but not before `# start/login stuff`), define a variable `TOKEN` with your bot token as a string.
 
-You can also remove that line from the code and use a `.env` file instead. To do so, you also neeed to install dotenv.
+You can also use a `.env` file instead. To do so, you also neeed to install dotenv.
 ```bash
 pip install python-dotenv
 ```
