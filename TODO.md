@@ -9,7 +9,7 @@
 - setup function $\color{blue}{\text{IN PROGRESS}}$
     - ~~random message frequency~~
     - ~~allow changing target of beef~~
-- what time is it in pharloom good sir
+- ~~what time is it in pharloom good sir~~ $\color{green}{\text{DONE}}$
 - ~~per-server settings w/ db~~ $\color{green}{\text{DONE}}$
 
 ## Haiku
@@ -21,6 +21,7 @@
 - ~~draw pfp and banner~~ $\color{green}{\text{DONE}}$
 - use stack for metric conversion
 - draw haiku icon
+- draw coins (verdospore: fabric)
 - ~~write poems for every kingdom in docs~~ $\color{green}{\text{DONE}}$
 - fix metric conversion not catching units if they're the last word
 

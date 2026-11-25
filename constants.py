@@ -22,11 +22,19 @@ FUN = [
     "Anyone care to brief the silly butterfly on our current situation?",
     "Ah! Words!",
     "Fine day to you all.",
-    "Has the fish committed any assault today?"
+    "Has the fish committed any assault today?",
+    "Who are we blaming for our problems today..."
 ]
 THANKS = ["ty storyteller", "thanks storyteller", "thanks bot", "ty bot", "thanks", "ty"]
 YOURE_WELCOME = ["You are very welcome!", "Thank *you* for the brilliant poem.", ":D"]
+
 INTRO = ["who are you bot", "who are you storyteller", "what's the bot for", "whats the bot for", "what is the bot for", "hello storyteller", "!intro", "!about"]
+temp = ["Hello! I am the Singer-Storyteller, but you can just call me Storyteller. Or Haiku, if you would like an in-joke!\n",
+        "I prefer he/him, but I *am* a discord bot, so feel free to use it/its as well. The Sparrow made me to die, but I live on in their computer. Ha!\n",
+        "As a bot, I look around the server for haikus and chat sometimes! There's also this one fish... \n",
+        "-# Use `!help` to find out more."]
+STORY_INTRO = "".join(temp)
+
 TABLE = 'screw_it'
 
 # for tools

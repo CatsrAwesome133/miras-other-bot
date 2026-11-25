@@ -234,9 +234,7 @@ async def on_message(message):
 
     # introduction
     if any (i in message.content for i in INTRO):
-            await message.channel.send("Hello! I am the Singer-Storyteller, but you can just call me Storyteller. Or Haiku, if you would like an in-joke! I prefer he/him, but I *am* a discord bot, so feel free to use it/its as well. The Sparrow made me to die, but I live on in their computer. Ha!\n" \
-                                        "As a bot, I look around the server for haikus and chat sometimes! There's also this one fish... \n" \
-                                        "-# Use `!help` to find out more.")
+            await message.channel.send(STORY_INTRO)
             last_status = "i"
 
     # random messages for funsies
