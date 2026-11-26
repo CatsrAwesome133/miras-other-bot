@@ -1,7 +1,7 @@
 # for bot
 ANGLER = 1504819900957589555
 FRIEDFISH = '<:friedfish:1561070704844341410>'
-HAIKU = '<:haiku_placeholder:1566015165613473812>'
+HAIKU = '<:haiku:1575480419368042578>'
 HELLOS = [
     'Welcome.',
     'Hello!',
@@ -14,7 +14,7 @@ HELLO_WEIGHTS = [
      2,
      0.1
 ]
-COINS = ['1','0']
+COINS = ['<:heads:1575480490482466917>','<:tails:1575480474737057822>']
 GUILD = 1504795388417150976     # This variable is for testing! It syncs commands faster to my own server
 FUN = [
     "How's life?",
